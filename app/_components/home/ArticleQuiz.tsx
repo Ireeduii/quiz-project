@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Star } from "lucide-react";
+import { Link, Star } from "lucide-react";
 
 export function ArticleQuiz() {
   return (
@@ -62,12 +62,14 @@ export function ArticleQuiz() {
           </form>
         </CardContent>
         <CardFooter className="flex justify-evenly">
-          <Button
-            variant="outline"
-            className="w-40 flex px-2 py-4 bg-gray-300 text-white ml-70 mt-8"
-          >
-            Generate summary
-          </Button>
+          <Link href="button">
+            <Button
+              variant="outline"
+              className="w-40 flex px-2 py-4 bg-gray-300 text-white ml-70 mt-8"
+            >
+              Generate summary
+            </Button>
+          </Link>
         </CardFooter>
       </Card>
     </div>
