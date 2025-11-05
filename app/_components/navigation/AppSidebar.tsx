@@ -15,27 +15,23 @@ import {
 
 const items = [
   {
-    title: "Home",
+    title: "Genghis Khan",
     url: "#",
     icon: Home,
   },
   {
-    title: "Inbox",
+    title: "Figma ашиглах заавар",
     url: "#",
     icon: Inbox,
   },
   {
-    title: "Calendar",
+    title: "Санхүүгийн шийдвэрүүд",
     url: "#",
     icon: Calendar,
   },
+
   {
-    title: "Search",
-    url: "#",
-    icon: Search,
-  },
-  {
-    title: "Settings",
+    title: "Санхүүгийн технологи 2023",
     url: "#",
     icon: Settings,
   },
@@ -52,7 +48,10 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
+                <SidebarMenuItem
+                  key={item.title}
+                  className="flex wrap-anywhere text-black "
+                >
                   <SidebarMenuButton className="" asChild>
                     <a href={item.url}>
                       <item.icon />
