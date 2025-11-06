@@ -10,22 +10,9 @@ export async function POST(request: NextRequest) {
     model: "gemini-2.5-flash",
     contents: input,
     config: {
-      systemInstruction: `You should take a short content ${response}`,
+      systemInstruction: `You have to convert short content ${response}`,
     },
   });
   const text = res.text;
   return NextResponse.json({ text });
 }
-//   try {
-//     const {prompt} = await request.json()
-
-//     if (!prompt) {
-//         return NextResponse.json(
-//             {error: "Prompt is required"},
-//             {status: 400}
-//         )
-//     }
-//     const response = await hf.chatCompletion({
-
-//     })
-//   }
