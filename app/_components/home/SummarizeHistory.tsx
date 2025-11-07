@@ -16,23 +16,29 @@ import { useRouter } from "next/navigation";
 export function SummarizeHistory() {
   const [name, setName] = useState("");
   const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
   const onSummarize = async () => {
+    setLoading(true);
     if (!input.trim()) return;
 
-    const res = await fetch("/api/summarize", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ input }),
-    });
+    try {
+      const res = await fetch("/api/summarize", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ input }),
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (data.text) {
-      localStorage.setItem("summaryResult", data.text);
-      router.push("/summarize");
+      if (data.text) {
+        localStorage.setItem("summaryResult", data.text);
+        router.push("/summarize");
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -72,8 +78,12 @@ export function SummarizeHistory() {
         </form>
 
         <div className="flex justify-end mr-5 mb-3">
-          <Button onClick={onSummarize} className="w-[150px]">
-            Generate summary
+          <Button
+            onClick={onSummarize}
+            disabled={loading || !input}
+            className="w-[150px]"
+          >
+            {loading ? "Extracting..." : "Generate summary"}
           </Button>
         </div>
       </Card>

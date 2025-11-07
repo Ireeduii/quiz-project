@@ -5,7 +5,7 @@ import SummarizedContent from "./summarize/page";
 
 export function Home() {
   return (
-    <div className=" max-w-[1900px] w-full h-screen ">
+    <div className=" max-w-[1900px] w-full h-screen  ">
       {/* <ArticleQuiz /> */}
       {/* <QuickTest />  */}
       <SummarizeHistory />

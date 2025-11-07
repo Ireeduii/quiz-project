@@ -18,6 +18,7 @@ export default function SummarizedContent() {
   const router = useRouter();
   const [summary, setSummary] = useState("");
   const [quiz, setQuiz] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const result = localStorage.getItem("summaryResult");
@@ -25,19 +26,25 @@ export default function SummarizedContent() {
   }, []);
 
   const generateQuiz = async () => {
+    setLoading(true);
     if (!summary) return;
 
-    const res = await fetch("/api/test", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ content: summary }),
-    });
+    try {
+      const res = await fetch("/api/test", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content: summary }),
+      });
 
-    const data = await res.json();
-    if (data.text) {
-      localStorage.setItem("quizResult", data.text);
-      //   setQuiz(data.quiz);
-      router.push("/quiz");
+      const data = await res.json();
+
+      if (data.text) {
+        localStorage.setItem("quizResult", data.text);
+        //   setQuiz(data.quiz);
+        router.push("/quiz");
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -68,11 +75,15 @@ export default function SummarizedContent() {
         </form>
 
         <div className="flex justify-end mr-5 mb-3 ">
-          <Button className="w-[100px] bg-white text-black border mr-90 hover:bg-gray-100">
+          <Button className="w-[140px] bg-white text-black border mr-64 hover:bg-gray-100">
             See content
           </Button>
-          <Button className="w-[100px]" onClick={generateQuiz}>
-            Take a quiz
+          <Button
+            className="w-[140px]"
+            disabled={loading || !summary}
+            onClick={generateQuiz}
+          >
+            {loading ? "Extracting..." : "Generate summary"}
           </Button>
         </div>
       </Card>
