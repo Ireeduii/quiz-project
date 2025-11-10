@@ -10,15 +10,18 @@ import {
 } from "@/components/ui/card";
 
 import { ChevronLeft } from "lucide-react";
-import { useState } from "react";
+import { use, useState } from "react";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { title } from "process";
+import { text } from "stream/consumers";
 
 export default function SummarizedContent() {
   const router = useRouter();
   const [summary, setSummary] = useState("");
   const [quiz, setQuiz] = useState("");
   const [loading, setLoading] = useState(false);
+  const [title, setTitle] = useState("");
 
   useEffect(() => {
     const result = localStorage.getItem("summaryResult");
@@ -33,7 +36,7 @@ export default function SummarizedContent() {
       const res = await fetch("/api/test", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content: summary }),
+        body: JSON.stringify({ content: summary, title }),
       });
 
       const data = await res.json();

@@ -14,7 +14,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export function SummarizeHistory() {
-  const [name, setName] = useState("");
+  const [title, setTitle] = useState("");
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -35,6 +35,7 @@ export function SummarizeHistory() {
 
       if (data.text) {
         localStorage.setItem("summaryResult", data.text);
+        localStorage.setItem("titleResult", title);
         router.push("/summarize");
       }
     } finally {
@@ -63,7 +64,7 @@ export function SummarizeHistory() {
             <Textarea
               placeholder="Enter a title for your article..."
               className="-mt-1 border-0"
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => setTitle(e.target.value)}
             />
           </div>
 
