@@ -84,6 +84,10 @@ export default function Quiz() {
     }
   };
 
+  // const handleAnswer = (index) => {
+  //   const new
+  // }
+
   return (
     <div className="ml-60 mt-30">
       <div className="mb-5 flex items-center justify-between">
