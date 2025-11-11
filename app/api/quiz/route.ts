@@ -49,16 +49,24 @@
 import { NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
 import { prisma } from "@/lib/prisma";
+import { error } from "console";
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 export async function POST(req: Request) {
   try {
     const { content, title, articleId } = await req.json();
-
+    console.log("Article idddd", articleId);
     if (!content) {
       return NextResponse.json(
         { error: "No content provided" },
+        { status: 400 }
+      );
+    }
+
+    if (!articleId) {
+      return NextResponse.json(
+        { error: "Missing article ID" },
         { status: 400 }
       );
     }
@@ -86,17 +94,15 @@ export async function POST(req: Request) {
     let quizArray: any[] = [];
     quizArray = JSON.parse(cleanedJson);
 
-    const saved = await prisma.quizzes.createMany({
-      data: quizArray.map((q) => ({
-        // title: title,
-        question: q.question,
-        options: q.options,
-        answer: q.answer.toString(),
-        articleid: articleId,
-      })),
+    const article = await prisma.articles.createMany({
+      data: {
+        title: title,
+        content,
+        summary: "Sample summary",
+      },
     });
 
-    return NextResponse.json({ quizArray, saved });
+    return NextResponse.json({ quizArray, articles: article });
   } catch (error) {
     console.log("quiz generation error:", error);
     return NextResponse.json(

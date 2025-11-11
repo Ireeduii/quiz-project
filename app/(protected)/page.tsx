@@ -1,6 +1,6 @@
 import { ArticleQuiz } from "../_components/home/ArticleQuiz";
 import { QuickTest } from "../_components/home/QuickTest";
-import { SummarizeHistory } from "../_components/home/SummarizeHistory";
+import { SummarizeHistory } from "../main/SummarizeHistory";
 import SummarizedContent from "./summarize/[articleId]/page";
 
 export function Home() {

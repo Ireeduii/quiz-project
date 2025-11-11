@@ -36,7 +36,7 @@ export function SummarizeHistory() {
 
       if (data.text) {
         localStorage.setItem("summaryResult", data.text);
-        // localStorage.setItem("titleResult", title);
+
         router.push(`/summarize/${data.articles.id}`);
       }
     } finally {
@@ -54,12 +54,13 @@ export function SummarizeHistory() {
       <Card className="w-[600px] ml-40 mt-20">
         <CardHeader>
           <div className="flex gap-2 ml-2">
-            <img className="w-4 h-4" src="star.png" />
+            <img className="w-4 h-4" src={"star2.png"} />
+            {/* <IoIosStarOutline /> */}
+
             <CardTitle>Article Quiz Generator</CardTitle>
           </div>
 
           <CardDescription className="text-gray-400 text-[14px] flex gap-2 mt-3">
-            <img className="w-4 h-4 mt-1" src="book.png" />
             Summarized content
           </CardDescription>
         </CardHeader>
