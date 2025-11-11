@@ -12,20 +12,26 @@ import {
 import { ChevronLeft } from "lucide-react";
 import { use, useState } from "react";
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { title } from "process";
 import { text } from "stream/consumers";
 
 export default function SummarizedContent() {
   const router = useRouter();
+  const path = useParams();
+  console.log("PATH", path);
+
   const [summary, setSummary] = useState("");
   const [quiz, setQuiz] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [title, setTitle] = useState("");
+  const [articleId, setArticleId] = useState<number>(0);
 
   useEffect(() => {
     const result = localStorage.getItem("summaryResult");
+    // const savedTitle = localStorage.getItem("titleResult");
     if (result) setSummary(result);
+    // if (savedTitle) setTitle(savedTitle);
   }, []);
 
   const generateQuiz = async () => {
@@ -33,18 +39,29 @@ export default function SummarizedContent() {
     if (!summary) return;
 
     try {
-      const res = await fetch("/api/test", {
+      const res = await fetch("/api/quiz", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content: summary, title }),
+        body: JSON.stringify({
+          content: summary,
+          // title: "Generated Quiz",
+          title,
+          articleId,
+        }),
       });
 
       const data = await res.json();
+      console.log("DATAAAA", data);
 
       if (data.text) {
         localStorage.setItem("quizResult", data.text);
-        //   setQuiz(data.quiz);
-        router.push("/quiz");
+        router.push(`/quiz/${path.articleId}`);
+        // router.push(`/quiz?articleId=${data.data.id}`);
+      }
+
+      if (data.data?.id) {
+        setArticleId(data.data.id);
+        localStorage.setItem("articleId", data.data.id);
       }
     } finally {
       setLoading(false);
@@ -53,7 +70,6 @@ export default function SummarizedContent() {
 
   return (
     <div>
-      <ChevronLeft className="bg-black" />
       <Card className="w-[600px] ml-40 mt-20">
         <CardHeader>
           <div className="flex gap-2 ml-2">
@@ -65,6 +81,7 @@ export default function SummarizedContent() {
             <img className="w-4 h-4 mt-1" src="book.png" />
             Summarized content
           </CardDescription>
+          <CardTitle className="ml-5 mt-3 -mb-5 ">{title}</CardTitle>
         </CardHeader>
 
         <form>
@@ -86,10 +103,16 @@ export default function SummarizedContent() {
             disabled={loading || !summary}
             onClick={generateQuiz}
           >
-            {loading ? "Extracting..." : "Generate summary"}
+            {loading ? "Extracting..." : "Take quiz"}
           </Button>
         </div>
       </Card>
     </div>
   );
+}
+{
+  /* <CardHeader>
+  <div className="flex gap-2 ml-2">
+    <img className="w-4 h-4" src="star.png" />
+    <CardTitle>{title || "Article Quiz Generator"}</CardTitle> {/* */
 }

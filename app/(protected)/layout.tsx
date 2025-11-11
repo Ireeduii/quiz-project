@@ -9,12 +9,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
       <AppSidebar />
-      {/* {
-        <div className={`sidebar ${isOpen ? `open` : `closed`}`}>
-          {isOpen && <div></div>}
-          {!isOpen && <div></div>}
-        </div>
-      } */}
+
       <main>
         <div className="pt-14 relative">
           <div className=" h-screen bg-white absolute">

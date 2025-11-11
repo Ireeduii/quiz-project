@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 
 import { Textarea } from "@/components/ui/textarea";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -32,11 +32,12 @@ export function SummarizeHistory() {
       });
 
       const data = await res.json();
+      console.log("DATA", data);
 
       if (data.text) {
         localStorage.setItem("summaryResult", data.text);
-        localStorage.setItem("titleResult", title);
-        router.push("/summarize");
+        // localStorage.setItem("titleResult", title);
+        router.push(`/summarize/${data.articles.id}`);
       }
     } finally {
       setLoading(false);
@@ -45,7 +46,11 @@ export function SummarizeHistory() {
 
   return (
     <div>
-      <ChevronLeft className="bg-black" />
+      <ChevronRight
+        onClick={() => router.push("/")}
+        className="w-5 h-5 cursor-pointer text-gray-600 hover:text-black"
+      />
+
       <Card className="w-[600px] ml-40 mt-20">
         <CardHeader>
           <div className="flex gap-2 ml-2">
