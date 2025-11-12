@@ -25,7 +25,7 @@ export function SummarizeHistory() {
     if (!input.trim()) return;
 
     try {
-      const res = await fetch("/api/summarize", {
+      const res = await fetch("/api/generated", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ input }),
@@ -46,16 +46,12 @@ export function SummarizeHistory() {
 
   return (
     <div>
-      <ChevronRight
-        onClick={() => router.push("/")}
-        className="w-5 h-5 cursor-pointer text-gray-600 hover:text-black"
-      />
+      <ChevronLeft className=" h-5 w-5 border rounded-sm ml-20 mt-20" />
 
       <Card className="w-[600px] ml-40 mt-20">
         <CardHeader>
           <div className="flex gap-2 ml-2">
             <img className="w-4 h-4" src={"star2.png"} />
-            {/* <IoIosStarOutline /> */}
 
             <CardTitle>Article Quiz Generator</CardTitle>
           </div>

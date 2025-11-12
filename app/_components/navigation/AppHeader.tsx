@@ -8,7 +8,6 @@ export const AppHeader = () => {
       <div className="font-semibold ml-10 mt-2 cursor-pointer">
         <Link href="/"> Quiz app</Link>
       </div>
-      {/* <img className="mr-3" src="header.png" /> */}
     </header>
   );
 };
