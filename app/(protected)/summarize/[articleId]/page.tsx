@@ -40,7 +40,7 @@ export default function SummarizedContent() {
     if (id) setArticleId(Number(id));
     if (result) setSummary(result);
     if (storedTitle) setTitle(storedTitle);
-    if (originalContent) setOriginalContent(originalContent);
+    if (original) setOriginalContent(original);
   }, [path]);
 
   const generateQuiz = async () => {
@@ -118,7 +118,7 @@ export default function SummarizedContent() {
                 See content
               </Button>
             </AlertDialogTrigger>
-            <AlertDialogContent>
+            <AlertDialogContent className="w-[1000px] h-[400px]">
               <AlertDialogHeader>
                 <AlertDialogDescription className="whitespace-pre-wrap text-gray-700">
                   {originalContent || "No content found."}

@@ -1,11 +1,9 @@
 "use client";
 
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "../_components/navigation/AppSidebar";
-import { useState } from "react";
+import AppSidebar from "../_components/navigation/AppSidebar";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const [isOpen, setIsOpen] = useState(false);
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -22,6 +20,3 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     </SidebarProvider>
   );
 }
-// const toggleSidebar = () => {
-//     setIsOpen(!isOpen);
-//   };

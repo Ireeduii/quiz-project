@@ -28,7 +28,7 @@ export function SummarizeHistory() {
       const res = await fetch("/api/generated", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ input }),
+        body: JSON.stringify({ input, title }),
       });
 
       const data = await res.json();
@@ -36,6 +36,8 @@ export function SummarizeHistory() {
 
       if (data.text) {
         localStorage.setItem("summaryResult", data.text);
+        localStorage.setItem("articleTitle", title);
+        localStorage.setItem("originalContent", input);
 
         router.push(`/summarize/${data.articles.id}`);
       }

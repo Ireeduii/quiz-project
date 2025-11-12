@@ -6,7 +6,7 @@ const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 export async function POST(req: Request) {
   try {
-    const { content, title, articleId } = await req.json();
+    const { content, articleId } = await req.json();
     console.log("Article idddd", articleId);
     if (!content) {
       return NextResponse.json(
