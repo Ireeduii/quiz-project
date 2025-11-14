@@ -7,6 +7,7 @@ import {
   CardFooter,
   CardTitle,
 } from "@/components/ui/card";
+import { CircleCheck, CircleX } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -112,9 +113,9 @@ export default function Quiz() {
       {!showResult ? (
         <div>
           <div className="mb-5 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <img className="w-4 h-4" src="/star2.png" />
-              <CardTitle>Quick test</CardTitle>
+            <div className="flex  gap-2">
+              <img className="w-5 h-5" src="/star2.png" />
+              <CardTitle className="">Quick test</CardTitle>
             </div>
             <Button className="border bg-white text-black">X</Button>
           </div>
@@ -159,37 +160,93 @@ export default function Quiz() {
         </div>
       ) : (
         <div>
-          <Card className="w-[450px] mt-5 p-4 text-center">
-            {showResult && (
-              <div>
-                <div className="flex gap-3">
-                  <img src={"/star2.png"} className="w-6 h-6 mt-1" />
-                  <CardTitle className="font-semibold text-xl">
-                    {" "}
-                    Quiz Completed!
-                  </CardTitle>
-                </div>
-                <CardDescription>Let’s see what you did</CardDescription>
+          {showResult && (
+            <div className="-mt-15">
+              <div className="flex gap-3 ">
+                <img src={"/star2.png"} className="w-6 h-6 mt-1" />
+                <CardTitle className="font-semibold text-xl">
+                  Quiz Completed!
+                </CardTitle>
+              </div>
 
-                <p className="mt-3">
-                  Your score:{" "}
-                  {quizData.filter((q) => q.userAnswer === q.answer).length} /{" "}
-                  {quizData.length}
-                </p>
-                <div className="flex justify-between mt-4">
-                  <Button
-                    className="text-black bg-white border"
-                    onClick={generateQuiz}
-                  >
-                    Restart quiz
-                  </Button>
-                  <Button className="flex" onClick={saveAndLeave}>
-                    Save and Leave
-                  </Button>
+              <div className="flex gap-3">
+                <div className="mt-6">
+                  <CardTitle className="mb-3 text-lg text-[#71717A] text-[14px] -mt-2.5 fonr-">
+                    Let's see what you did
+                  </CardTitle>
+                  <Card className="w-[550px] mt-5 p-4 text-center">
+                    <p className="mt-3 text-2xl font-semibold mr-85">
+                      Your score:
+                      {
+                        quizData.filter((q) => q.userAnswer === q.answer).length
+                      }{" "}
+                      <span className="text-gray-400 text-[14px]">
+                        / {quizData.length}
+                      </span>
+                    </p>
+
+                    {quizData.map((q, idx) => {
+                      const isCorrect = q.userAnswer === q.answer;
+                      return (
+                        <div key={idx} className="mb-4 text-left">
+                          <div className="flex items-start gap-2">
+                            <div>
+                              {isCorrect ? (
+                                <CircleCheck className="text-green-500" />
+                              ) : (
+                                <CircleX className="text-red-500" />
+                              )}
+                            </div>
+
+                            <div>
+                              <div>
+                                <p className="font-medium text-[15px] ">
+                                  {idx + 1}. {q.question}
+                                </p>
+
+                                <p
+                                  className={`text-sm mt-1 font-semibold flex justify-start ${
+                                    isCorrect ? "text-green-600" : "text-black"
+                                  }`}
+                                >
+                                  Your answer:{" "}
+                                  <span className="font-medium">
+                                    {q.userAnswer !== undefined
+                                      ? q.options[q.userAnswer]
+                                      : "Not answered"}
+                                  </span>
+                                </p>
+                              </div>
+
+                              {!isCorrect && (
+                                <p className="text-green-600 text-sm mt-1 flex justify-start">
+                                  Correct:{" "}
+                                  <span className="font-medium">
+                                    {q.options[q.answer]}
+                                  </span>
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                    <div className="flex justify-between mt-4">
+                      <Button
+                        className="text-black bg-white border"
+                        onClick={generateQuiz}
+                      >
+                        Restart quiz
+                      </Button>
+                      <Button className="flex" onClick={saveAndLeave}>
+                        Save and Leave
+                      </Button>
+                    </div>
+                  </Card>
                 </div>
               </div>
-            )}
-          </Card>
+            </div>
+          )}
 
           {quizData.length === 0 && (
             <Button onClick={generateQuiz}>Generate Quiz (Re-fetch)</Button>
