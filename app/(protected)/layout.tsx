@@ -5,6 +5,7 @@ import AppSidebar from "../_components/navigation/AppSidebar";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { user, isLoaded } = useUser();
@@ -18,7 +19,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   if (!isLoaded) {
     return (
       <div className="w-full h-screen flex items-center justify-center">
-        <div>Loading</div>
+        <Spinner />
       </div>
     );
   }

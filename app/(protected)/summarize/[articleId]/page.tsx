@@ -63,10 +63,10 @@ export default function SummarizedContent() {
 
       if (data.quizArray && data.quizArray.length > 0) {
         localStorage.setItem("quizResult", JSON.stringify(data));
-        router.push(`/quiz/${path.id}`);
+        router.push(`/quiz/${path.articleId}`);
       } else if (data.text) {
         localStorage.setItem("quizResult", data.text);
-        router.push(`/quiz/${path.id}`);
+        router.push(`/quiz/${path.articleId}`);
       } else {
         alert(
           "Quiz generation successful, but no quiz questions were returned."

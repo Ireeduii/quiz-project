@@ -6,7 +6,7 @@ const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 export async function POST(req: Request) {
   try {
-    const { content, articleId } = await req.json();
+    const { content, articleId, scores, userId } = await req.json();
     console.log("Article idddd", articleId);
     if (!content) {
       return NextResponse.json(
@@ -40,6 +40,9 @@ export async function POST(req: Request) {
     console.log("resssssss", res);
 
     const text = res.text || "[]";
+    // const { userId } = await req.json();
+
+    console.log({ text });
 
     let cleanedJson = text.replace(/```json\s*|```/g, "").trim();
     let quizArray: any[] = [];
@@ -47,15 +50,24 @@ export async function POST(req: Request) {
     console.log("", quizArray);
 
     const quizzes = await prisma.quizzes.createMany({
-      data: quizArray.map((q) => {
-        return {
-          articleid: articleId,
-          question: q.question,
-          options: q.options,
-          answer: q.answer.toString(),
-        };
-      }),
+      data: quizArray.map((q) => ({
+        articleid: articleId,
+        question: q.question,
+        options: q.options,
+        answer: q.answer.toString(),
+        userScore: scores,
+      })),
     });
+    // const userScore = await prisma.userscores.createMany({
+    //   data: quizArray.map((q) => ({
+    //     userid: userId,
+    //     articleid: articleId,
+    //     question: q.question,
+    //     options: q.options,
+    //     answer: q.answer.toString(),
+    //     userScore: score,
+    //   })),
+    // });
 
     return NextResponse.json({ quizArray, quizzes });
   } catch (error) {

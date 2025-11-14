@@ -8,26 +8,28 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { CircleCheck, CircleX } from "lucide-react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface QuizItem {
   question: string;
   options: string[];
   answer: number;
-  // correct answer
   userAnswer?: number;
 }
 
 export default function Quiz() {
-  const path = useParams();
+  const params = useParams();
+  const { articleId } = params;
+  const router = useRouter();
 
+  console.log({ articleId });
+
+  const [originalQuizData, setOriginalQuizData] = useState<QuizItem[]>([]);
   const [quizData, setQuizData] = useState<QuizItem[]>([]);
-  const [articleId, setArticleId] = useState<number>();
   const [quizRawText, setQuizRawText] = useState<string>("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showResult, setShowResult] = useState(false);
-  console.log("artttt", articleId);
 
   useEffect(() => {
     const result = localStorage.getItem("quizResult");
@@ -36,46 +38,29 @@ export default function Quiz() {
       try {
         const parseData = JSON.parse(result);
         setQuizData(parseData.quizArray || []);
+
+        const cleaned = parseData.quizArray.map((q: QuizItem) => ({
+          ...q,
+          userAnswer: undefined,
+        }));
+        setOriginalQuizData(parseData.quizArray || []);
       } catch (e) {
-        console.error("Failed to parse quizResult:", e);
+        console.log("Failed to parse quizResult:", e);
       }
     }
+    // const idFromPath = path.id;
+  }, [articleId]);
 
-    const idFromPath = path.id;
-    if (idFromPath) setArticleId(Number(idFromPath));
-  }, [path]);
+  const handleRestart = () => {
+    if (!originalQuizData.length) return;
 
-  const generateQuiz = async () => {
-    if (!quizRawText)
-      return alert(
-        "No quiz content found to regenerate! Go back and generate the quiz first."
-      );
-
-    const res = await fetch("/api/quiz", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        content: quizRawText,
-        title: "Generated Quiz",
-        articleId,
-      }),
-    });
-
-    const data = await res.json();
-    if (data.error) return alert(data.error);
-
-    setQuizData(data.quizArray || []);
+    const resetQuiz = originalQuizData.map((q) => ({
+      ...q,
+      userAnswer: undefined,
+    }));
+    setQuizData(resetQuiz);
     setCurrentIndex(0);
     setShowResult(false);
-    localStorage.setItem("quizResult", JSON.stringify(data));
-  };
-
-  const handleNext = () => {
-    if (currentIndex < quizData.length - 1) {
-      setCurrentIndex(currentIndex + 1);
-    } else {
-      setShowResult(true);
-    }
   };
 
   const handleBefore = () => {
@@ -86,22 +71,36 @@ export default function Quiz() {
     }
   };
 
+  const handleNext = () => {
+    if (currentIndex < quizData.length - 1) {
+      setCurrentIndex(currentIndex + 1);
+    } else {
+      setShowResult(true);
+    }
+  };
   const handleAnswer = (index: number) => {
     const newQuizData = [...quizData];
     newQuizData[currentIndex].userAnswer = index;
     setQuizData(newQuizData);
   };
 
-  const saveAndLeave = async () => {
-    const score = quizData.filter((q) => q.userAnswer === q.answer).length;
-    if (!articleId) return alert("Missing articleId");
+  const handleSave = async () => {
+    console.log({ params });
 
-    const res = await fetch("/api/quiz/submit", {
+    const score = quizData.filter((q) => q.userAnswer === q.answer).length;
+    if (!articleId) return alert("Missing article Id");
+
+    const res = await fetch("/api/quiz", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ articleId, score, total: quizData.length }),
+      body: JSON.stringify({
+        articleId: articleId,
+        score,
+        total: quizData.length,
+        userId: 1,
+      }),
     });
     const data = await res.json();
     if (data.error) return alert(data.error);
@@ -126,7 +125,7 @@ export default function Quiz() {
 
           {quizData.length > 0 && quizData[currentIndex] && !showResult && (
             <Card className="w-[450px] mt-5 p-4">
-              <p className="font-medium mb-3">
+              <p className="font-medium mb-3 ">
                 {currentIndex + 1}. {quizData[currentIndex].question}
               </p>
 
@@ -134,8 +133,8 @@ export default function Quiz() {
                 <Button
                   key={i}
                   variant="outline"
-                  className={`w-full justify-start text-left mb-2 ${
-                    quizData[currentIndex].userAnswer === i ? "bg-blue-100" : ""
+                  className={`w-full justify-start text-left whitespace-normal wrap-break-word  ${
+                    quizData[currentIndex].userAnswer === i ? "bg-gray-100" : ""
                   }`}
                   onClick={() => handleAnswer(i)}
                 >
@@ -210,7 +209,7 @@ export default function Quiz() {
                                   }`}
                                 >
                                   Your answer:{" "}
-                                  <span className="font-medium">
+                                  <span className="font-medium ">
                                     {q.userAnswer !== undefined
                                       ? q.options[q.userAnswer]
                                       : "Not answered"}
@@ -233,12 +232,12 @@ export default function Quiz() {
                     })}
                     <div className="flex justify-between mt-4">
                       <Button
-                        className="text-black bg-white border"
-                        onClick={generateQuiz}
+                        className="text-black bg-white border hover:bg-gray-100"
+                        onClick={handleRestart}
                       >
                         Restart quiz
                       </Button>
-                      <Button className="flex" onClick={saveAndLeave}>
+                      <Button className="flex" onClick={handleSave}>
                         Save and Leave
                       </Button>
                     </div>
@@ -249,7 +248,7 @@ export default function Quiz() {
           )}
 
           {quizData.length === 0 && (
-            <Button onClick={generateQuiz}>Generate Quiz (Re-fetch)</Button>
+            <Button onClick={handleRestart}>Generate Quiz</Button>
           )}
         </div>
       )}
