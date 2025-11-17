@@ -111,18 +111,19 @@ export default function SummarizedContent() {
           </div>
         </form>
 
-        <div className="flex justify-end mr-5 mb-3">
+        <div className="flex justify-start ml-11">
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button className="w-[140px] bg-white text-black border mr-64 hover:bg-gray-100">
                 See content
               </Button>
             </AlertDialogTrigger>
-            <AlertDialogContent className="w-[1000px] h-[400px]">
+            <AlertDialogContent className="">
               <AlertDialogHeader>
+                <AlertDialogDescription> {title}</AlertDialogDescription>
                 <AlertDialogDescription className="whitespace-pre-wrap text-gray-700">
                   {originalContent || "No content found."}
-                  <AlertDialogCancel className=" w-[20px] flex ml-130">
+                  <AlertDialogCancel className=" w-20px ml-100">
                     X
                   </AlertDialogCancel>
                 </AlertDialogDescription>
@@ -136,7 +137,7 @@ export default function SummarizedContent() {
             disabled={loading || !summary}
             onClick={generateQuiz}
           >
-            {loading ? "Extracting..." : "Take quiz"}
+            {loading ? "Extracting..." : "Take a quiz"}
           </Button>
         </div>
       </Card>

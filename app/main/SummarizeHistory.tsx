@@ -9,14 +9,14 @@ import {
 } from "@/components/ui/card";
 
 import { Textarea } from "@/components/ui/textarea";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export function SummarizeHistory() {
-  const [title, setTitle] = useState("");
-  const [input, setInput] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [title, setTitle] = useState<string>("");
+  const [input, setInput] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   const router = useRouter();
 
@@ -50,7 +50,7 @@ export function SummarizeHistory() {
     <div>
       <ChevronLeft className=" h-5 w-5 border rounded-sm ml-20 mt-20" />
 
-      <Card className="w-[600px] ml-40 mt-20">
+      <Card className="w-[700px] ml-40 mt-20">
         <CardHeader>
           <div className="flex gap-2 ml-2">
             <img className="w-4 h-4" src={"star2.png"} />
@@ -85,6 +85,12 @@ export function SummarizeHistory() {
         <div className="flex justify-end mr-5 mb-3">
           <Button
             onClick={onSummarize}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                onSummarize();
+              }
+            }}
             disabled={loading || !input}
             className="w-[150px]"
           >
@@ -95,9 +101,3 @@ export function SummarizeHistory() {
     </div>
   );
 }
-//   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-//     if (e.key === "Enter" && !e.shiftKey) {
-//       e.preventDefault();
-//       onSummarize();
-//     }
-//   };

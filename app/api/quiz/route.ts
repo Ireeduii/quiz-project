@@ -40,7 +40,6 @@ export async function POST(req: Request) {
     console.log("resssssss", res);
 
     const text = res.text || "[]";
-    // const { userId } = await req.json();
 
     console.log({ text });
 
@@ -60,12 +59,13 @@ export async function POST(req: Request) {
     });
     // const userScore = await prisma.userscores.createMany({
     //   data: quizArray.map((q) => ({
+    //     quizid: q.quiz,
     //     userid: userId,
     //     articleid: articleId,
     //     question: q.question,
     //     options: q.options,
     //     answer: q.answer.toString(),
-    //     userScore: score,
+    //     userScore: scores,
     //   })),
     // });
 

@@ -16,6 +16,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     }
   }, [isLoaded, user]);
 
+  // useEffect(() => {
+  //   if ()
+  // })
+
   if (!isLoaded) {
     return (
       <div className="w-full h-screen flex items-center justify-center">
