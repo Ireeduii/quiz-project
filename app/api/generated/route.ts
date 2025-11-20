@@ -1,15 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
 import { prisma } from "@/lib/prisma";
+import { APIKeys } from "@clerk/nextjs";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+// console.log("geminiiiiii", ai);
 
 export async function POST(request: NextRequest) {
   try {
     const { input, title } = await request.json();
 
     const res = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: "gemini-2.0-flash",
       contents: input,
       config: {
         systemInstruction:

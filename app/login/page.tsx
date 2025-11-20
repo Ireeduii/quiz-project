@@ -13,3 +13,14 @@ const Page = () => {
 };
 
 export default Page;
+
+// import { useUser } from '@clerk/nextjs'
+
+// const {user} = useUser()
+
+// // loggedUser
+// useEffect(()=>{
+//   if(user){
+//     // Send post request to api/login -> email clerkId
+//   }
+// },[user])

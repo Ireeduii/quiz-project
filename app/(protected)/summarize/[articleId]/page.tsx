@@ -120,7 +120,10 @@ export default function SummarizedContent() {
             </AlertDialogTrigger>
             <AlertDialogContent className="">
               <AlertDialogHeader>
-                <AlertDialogDescription> {title}</AlertDialogDescription>
+                <AlertDialogDescription className="text-black font-semibold text-xl ">
+                  {" "}
+                  {title}
+                </AlertDialogDescription>
                 <AlertDialogDescription className="whitespace-pre-wrap text-gray-700">
                   {originalContent || "No content found."}
                   <AlertDialogCancel className=" w-20px ml-100">

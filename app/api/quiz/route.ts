@@ -23,7 +23,7 @@ export async function POST(req: Request) {
     }
 
     const res = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: "gemini-2.0-flash",
       contents: `
         Generate 5 multiple choice questions based on this article: ${content}.
         Return the response in this exact JSON format:

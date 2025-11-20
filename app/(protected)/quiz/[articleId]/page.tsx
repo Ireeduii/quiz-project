@@ -108,10 +108,10 @@ export default function Quiz() {
   };
 
   return (
-    <div className="ml-60 mt-30">
+    <div className="ml-80 mt-30 ">
       {!showResult ? (
         <div>
-          <div className="mb-5 flex items-center justify-between">
+          <div className="mb-5 flex items-center justify-between ">
             <div className="flex  gap-2">
               <img className="w-5 h-5" src="/star2.png" />
               <CardTitle className="">Quick test</CardTitle>
@@ -124,23 +124,27 @@ export default function Quiz() {
           </CardDescription>
 
           {quizData.length > 0 && quizData[currentIndex] && !showResult && (
-            <Card className="w-[450px] mt-5 p-4">
+            <Card className="w-[600px] mt-5 p-4">
               <p className="font-medium mb-3 ">
                 {currentIndex + 1}. {quizData[currentIndex].question}
               </p>
 
-              {quizData[currentIndex].options.map((opt, i) => (
-                <Button
-                  key={i}
-                  variant="outline"
-                  className={`w-full justify-start text-left whitespace-normal wrap-break-word  ${
-                    quizData[currentIndex].userAnswer === i ? "bg-gray-100" : ""
-                  }`}
-                  onClick={() => handleAnswer(i)}
-                >
-                  {opt}
-                </Button>
-              ))}
+              <div className="grid grid-cols-2 gap-2">
+                {quizData[currentIndex].options.map((opt, i) => (
+                  <Button
+                    key={i}
+                    variant="outline"
+                    className={`w-full justify-start text-left whitespace-normal wrap-break-word  ${
+                      quizData[currentIndex].userAnswer === i
+                        ? "bg-gray-100"
+                        : ""
+                    }`}
+                    onClick={() => handleAnswer(i)}
+                  >
+                    {opt}
+                  </Button>
+                ))}
+              </div>
 
               <div className="flex justify-between mt-4">
                 <Button
@@ -187,7 +191,7 @@ export default function Quiz() {
                     {quizData.map((q, idx) => {
                       const isCorrect = q.userAnswer === q.answer;
                       return (
-                        <div key={idx} className="mb-4 text-left">
+                        <div className="mb-4 text-left">
                           <div className="flex items-start gap-2">
                             <div>
                               {isCorrect ? (
@@ -204,7 +208,7 @@ export default function Quiz() {
                                 </p>
 
                                 <p
-                                  className={`text-sm mt-1 font-semibold flex justify-start ${
+                                  className={`text-sm mt-1 font-semibold flex justify-start  ${
                                     isCorrect ? "text-green-600" : "text-black"
                                   }`}
                                 >
