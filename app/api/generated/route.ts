@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
 import { prisma } from "@/lib/prisma";
-import { APIKeys } from "@clerk/nextjs";
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 // console.log("geminiiiiii", ai);

@@ -12,6 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { ChevronLeft } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export function SummarizeHistory() {
   const [title, setTitle] = useState<string>("");
@@ -48,12 +49,12 @@ export function SummarizeHistory() {
 
   return (
     <div>
-      <ChevronLeft className=" h-5 w-5 border rounded-sm ml-20 mt-20" />
+      <ChevronLeft className="  border rounded-sm " />
 
       <Card className="w-[700px] ml-40 mt-20">
         <CardHeader>
           <div className="flex gap-2 ml-2">
-            <img className="w-4 h-4" src={"star2.png"} />
+            <Image className="w-4 h-4" src={"star2.png"} alt="" />
 
             <CardTitle>Article Quiz Generator</CardTitle>
           </div>

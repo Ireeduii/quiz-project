@@ -1,15 +1,11 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardDescription,
-  CardFooter,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { CircleCheck, CircleX } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 interface QuizItem {
   question: string;
@@ -21,34 +17,30 @@ interface QuizItem {
 export default function Quiz() {
   const params = useParams();
   const { articleId } = params;
-  const router = useRouter();
-
-  console.log({ articleId });
+  console.log("ARTICLEID", articleId);
 
   const [originalQuizData, setOriginalQuizData] = useState<QuizItem[]>([]);
   const [quizData, setQuizData] = useState<QuizItem[]>([]);
-  const [quizRawText, setQuizRawText] = useState<string>("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showResult, setShowResult] = useState(false);
 
   useEffect(() => {
     const result = localStorage.getItem("quizResult");
     if (result) {
-      setQuizRawText(result);
       try {
         const parseData = JSON.parse(result);
-        setQuizData(parseData.quizArray || []);
 
         const cleaned = parseData.quizArray.map((q: QuizItem) => ({
           ...q,
           userAnswer: undefined,
         }));
-        setOriginalQuizData(parseData.quizArray || []);
+
+        setQuizData(cleaned);
+        setOriginalQuizData(cleaned);
       } catch (e) {
         console.log("Failed to parse quizResult:", e);
       }
     }
-    // const idFromPath = path.id;
   }, [articleId]);
 
   const handleRestart = () => {
@@ -99,7 +91,6 @@ export default function Quiz() {
         articleId: articleId,
         score,
         total: quizData.length,
-        userId: 1,
       }),
     });
     const data = await res.json();
@@ -113,7 +104,7 @@ export default function Quiz() {
         <div>
           <div className="mb-5 flex items-center justify-between ">
             <div className="flex  gap-2">
-              <img className="w-5 h-5" src="/star2.png" />
+              <Image className="w-5 h-5" src="/star2.png" alt="" />
               <CardTitle className="">Quick test</CardTitle>
             </div>
             <Button className="border bg-white text-black">X</Button>
@@ -166,7 +157,7 @@ export default function Quiz() {
           {showResult && (
             <div className="-mt-15">
               <div className="flex gap-3 ">
-                <img src={"/star2.png"} className="w-6 h-6 mt-1" />
+                <Image src={"/star2.png"} className="w-6 h-6 mt-1" alt="" />
                 <CardTitle className="font-semibold text-xl">
                   Quiz Completed!
                 </CardTitle>
@@ -175,14 +166,13 @@ export default function Quiz() {
               <div className="flex gap-3">
                 <div className="mt-6">
                   <CardTitle className="mb-3 text-lg text-[#71717A] text-[14px] -mt-2.5 fonr-">
-                    Let's see what you did
+                    Let&apos;s see what you did
                   </CardTitle>
+
                   <Card className="w-[550px] mt-5 p-4 text-center">
                     <p className="mt-3 text-2xl font-semibold mr-85">
                       Your score:
-                      {
-                        quizData.filter((q) => q.userAnswer === q.answer).length
-                      }{" "}
+                      {quizData.filter((q) => q.userAnswer === q.answer).length}
                       <span className="text-gray-400 text-[14px]">
                         / {quizData.length}
                       </span>
@@ -191,7 +181,7 @@ export default function Quiz() {
                     {quizData.map((q, idx) => {
                       const isCorrect = q.userAnswer === q.answer;
                       return (
-                        <div className="mb-4 text-left">
+                        <div key={idx} className="mb-4 text-left">
                           <div className="flex items-start gap-2">
                             <div>
                               {isCorrect ? (

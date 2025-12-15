@@ -20,6 +20,7 @@ import {
 
 import { useParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
 export default function SummarizedContent() {
   const router = useRouter();
@@ -90,12 +91,12 @@ export default function SummarizedContent() {
       <Card className="w-[600px] ml-40 mt-20">
         <CardHeader>
           <div className="flex gap-2 ml-2">
-            <img className="w-4 h-4" src="/star.png" alt="star" />
+            <Image className="w-4 h-4" src="/star.png" alt="star" />
             <CardTitle>Article Quiz Generator</CardTitle>
           </div>
 
           <CardDescription className="text-gray-400 text-[14px] flex gap-2 mt-3">
-            <img className="w-4 h-4 mt-1" src="/book.png" />
+            <Image className="w-4 h-4 mt-1" src="/book.png" alt="" />
             Summarized content
           </CardDescription>
           <CardTitle className="ml-5 mt-3 -mb-5 ">{title}</CardTitle>

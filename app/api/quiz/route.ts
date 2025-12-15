@@ -5,8 +5,14 @@ import { prisma } from "@/lib/prisma";
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 export async function POST(req: Request) {
+  type QuizItem = {
+    question: string;
+    options: string[];
+    answer: number;
+  };
+
   try {
-    const { content, articleId, scores, userId } = await req.json();
+    const { content, articleId, scores } = await req.json();
     console.log("Article idddd", articleId);
     if (!content) {
       return NextResponse.json(
@@ -43,9 +49,9 @@ export async function POST(req: Request) {
 
     console.log({ text });
 
-    let cleanedJson = text.replace(/```json\s*|```/g, "").trim();
-    let quizArray: any[] = [];
-    quizArray = JSON.parse(cleanedJson);
+    const cleanedJson = text.replace(/```json\s*|```/g, "").trim();
+    const quizArray: QuizItem[] = JSON.parse(cleanedJson);
+
     console.log("", quizArray);
 
     const quizzes = await prisma.quizzes.createMany({

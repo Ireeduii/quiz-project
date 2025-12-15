@@ -14,7 +14,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     if (isLoaded && !user) {
       router.push("/login");
     }
-  }, [isLoaded, user]);
+  }, [isLoaded, user, router]);
 
   if (!isLoaded) {
     return (

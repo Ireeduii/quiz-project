@@ -6,4 +6,5 @@ const pool = new Pool({
 
 export async function query(text: string, values?: string[]) {
   const res = await pool.query(text, values);
+  return res;
 }
