@@ -104,7 +104,7 @@ export default function Quiz() {
         <div>
           <div className="mb-5 flex items-center justify-between ">
             <div className="flex  gap-2">
-              <Image className="w-5 h-5" src="/star2.png" alt="" />
+              <Image width={20} height={20} src="/star2.png" alt="" />
               <CardTitle className="">Quick test</CardTitle>
             </div>
             <Button className="border bg-white text-black">X</Button>
@@ -157,7 +157,13 @@ export default function Quiz() {
           {showResult && (
             <div className="-mt-15">
               <div className="flex gap-3 ">
-                <Image src={"/star2.png"} className="w-6 h-6 mt-1" alt="" />
+                <Image
+                  src={"/star2.png"}
+                  width={24}
+                  height={24}
+                  className="mt-1"
+                  alt=""
+                />
                 <CardTitle className="font-semibold text-xl">
                   Quiz Completed!
                 </CardTitle>

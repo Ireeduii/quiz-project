@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
     const { input, title } = await request.json();
 
     const res = await ai.models.generateContent({
-      model: "gemini-2.0-flash",
+      model: "gemini-2.5-flash",
       contents: input,
       config: {
         systemInstruction:

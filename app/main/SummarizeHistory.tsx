@@ -54,7 +54,9 @@ export function SummarizeHistory() {
       <Card className="w-[700px] ml-40 mt-20">
         <CardHeader>
           <div className="flex gap-2 ml-2">
-            <Image className="w-4 h-4" src={"star2.png"} alt="" />
+            {/* <Image className="w-4 h-4" src={"star2.png"} alt="" /> */}
+
+            <Image src="/star2.png" alt="star" width={20} height={20} />
 
             <CardTitle>Article Quiz Generator</CardTitle>
           </div>
