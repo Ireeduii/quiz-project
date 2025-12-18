@@ -18,6 +18,6 @@ const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
 attachDatabasePool(pool);
 
-const prisma = new PrismaClient({
+export const prisma = new PrismaClient({
   adapter: new PrismaPg(pool),
 });
